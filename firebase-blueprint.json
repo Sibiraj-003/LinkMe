@@ -1,0 +1,114 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile information",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string" },
+        "name": { "type": "string" },
+        "profilePic": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["email", "name"]
+    },
+    "Card": {
+      "title": "Card",
+      "description": "Digital visiting card structure for a user",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "username": { "type": "string", "description": "Unique username for public URL" },
+        "name": { "type": "string" },
+        "designation": { "type": "string" },
+        "email": { "type": "string" },
+        "profilePic": { "type": "string" },
+        "mobile": { "type": "string" },
+        "company": { "type": "string" },
+        "college": { "type": "string" },
+        "department": { "type": "string" },
+        "location": { "type": "string" },
+        "bio": { "type": "string" },
+        "skills": { "type": "array" },
+        "experience": { "type": "array" },
+        "social": { "type": "object" },
+        "theme": { "type": "string" },
+        "backgroundColor": { "type": "string" },
+        "gradientColor": { "type": "string" },
+        "fontFamily": { "type": "string" },
+        "fontSize": { "type": "string" },
+        "layout": { "type": "string" },
+        "buttonStyle": { "type": "string" },
+        "profilePictureShape": { "type": "string" },
+        "resumeUrl": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["userId", "username", "name", "email", "designation"]
+    },
+    "Portfolio": {
+      "title": "Portfolio",
+      "description": "Portfolio projects and details for a user",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "items": { "type": "array", "description": "List of portfolio items with title, link, type, url" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["userId", "items"]
+    },
+    "Analytics": {
+      "title": "Analytics",
+      "description": "Profile views and interactions tracking",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "views": { "type": "number" },
+        "uniqueVisitors": { "type": "number" },
+        "qrScans": { "type": "number" },
+        "resumeDownloads": { "type": "number" },
+        "portfolioViews": { "type": "number" },
+        "socialClicks": { "type": "number" },
+        "lastUpdated": { "type": "string" }
+      },
+      "required": ["userId"]
+    },
+    "Settings": {
+      "title": "Settings",
+      "description": "User specific application settings",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "isPublic": { "type": "boolean" },
+        "seoTitle": { "type": "string" },
+        "seoDescription": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["userId"]
+    }
+  },
+  "firestore": {
+    "users/{userId}": {
+      "schema": { "$ref": "#/entities/User" },
+      "description": "User profiles"
+    },
+    "cards/{userId}": {
+      "schema": { "$ref": "#/entities/Card" },
+      "description": "Digital cards configuration for users"
+    },
+    "portfolios/{userId}": {
+      "schema": { "$ref": "#/entities/Portfolio" },
+      "description": "User portfolio collections"
+    },
+    "analytics/{userId}": {
+      "schema": { "$ref": "#/entities/Analytics" },
+      "description": "Aggregated analytics per user"
+    },
+    "settings/{userId}": {
+      "schema": { "$ref": "#/entities/Settings" },
+      "description": "User and card settings"
+    }
+  }
+}
