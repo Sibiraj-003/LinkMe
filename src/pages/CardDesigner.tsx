@@ -102,6 +102,7 @@ const getProxiedImageUrl = (url: string | null | undefined) => {
 // Help resolve OKLCH colors during html2canvas render to bypass parsing errors
 const resolveOklchInClonedDoc = (clonedDoc: Document) => {
   const elements = clonedDoc.getElementsByTagName('*');
+
   const colorProps = [
     'color',
     'backgroundColor',
@@ -117,55 +118,67 @@ const resolveOklchInClonedDoc = (clonedDoc: Document) => {
   const canvas = clonedDoc.createElement('canvas');
   canvas.width = 1;
   canvas.height = 1;
+
   const ctx = canvas.getContext('2d');
+  if (!ctx) return;
 
   const resolveColor = (colorStr: string): string => {
-  if (
-    !colorStr ||
-    (!colorStr.includes('oklch') && !colorStr.includes('oklab'))
-  ) {
-    return colorStr;
-  }
+    if (
+      !colorStr ||
+      (!colorStr.includes('oklch') &&
+       !colorStr.includes('oklab'))
+    ) {
+      return colorStr;
+    }
 
-  try {
-    ctx.clearRect(0, 0, 1, 1);
-    ctx.fillStyle = colorStr;
-    ctx.fillRect(0, 0, 1, 1);
+    try {
+      ctx.clearRect(0, 0, 1, 1);
+      ctx.fillStyle = colorStr;
+      ctx.fillRect(0, 0, 1, 1);
 
-    const imgData = ctx.getImageData(0, 0, 1, 1);
-    const [r, g, b, a] = imgData.data;
+      const imgData = ctx.getImageData(0, 0, 1, 1);
+      const [r, g, b, a] = imgData.data;
 
-    return `rgba(${r}, ${g}, ${b}, ${(a / 255).toFixed(3)})`;
-  } catch {
-    return colorStr;
-  }
-};
+      return `rgba(${r}, ${g}, ${b}, ${(a / 255).toFixed(3)})`;
+    } catch {
+      return colorStr;
+    }
+  };
 
   for (let i = 0; i < elements.length; i++) {
     const el = elements[i] as HTMLElement;
     if (!el.style) continue;
 
-    const computed = el.ownerDocument?.defaultView 
-      ? el.ownerDocument.defaultView.getComputedStyle(el) 
-      : window.getComputedStyle(el);
+    const computed =
+      el.ownerDocument?.defaultView
+        ? el.ownerDocument.defaultView.getComputedStyle(el)
+        : window.getComputedStyle(el);
 
     if (!computed) continue;
 
     for (const prop of colorProps) {
       const val = computed[prop as any];
-      includes('oklch') || includes('oklab')
-        const resolved = resolveColor(val);
-        el.style[prop as any] = resolved;
+
+      if (
+        val &&
+        (val.includes('oklch') || val.includes('oklab'))
+      ) {
+        el.style[prop as any] = resolveColor(val);
       }
     }
 
     const bgVal = computed.backgroundImage;
-    includes('oklch') || includes('oklab'){
+
+    if (
+      bgVal &&
+      (bgVal.includes('oklch') || bgVal.includes('oklab'))
+    ) {
       const regex = /(oklch|oklab)\([^)]+\)/g;
-      const resolvedBg = bgVal.replace(regex, (match) => {
-        return resolveColor(match);
-      });
-      el.style.backgroundImage = resolvedBg;
+
+      el.style.backgroundImage = bgVal.replace(
+        regex,
+        (match) => resolveColor(match)
+      );
     }
   }
 };
