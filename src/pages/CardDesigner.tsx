@@ -268,7 +268,7 @@ const CardFrontRenderer = ({
                 {/* Gold glowing shadow rings */}
                 <div className="absolute -inset-1.5 rounded-2xl blur-lg opacity-40 animate-pulse pointer-events-none" style={{ backgroundColor: accentColor }} />
                 <div className="w-[120px] h-[120px] rounded-2xl overflow-hidden border-2 shadow-2xl relative bg-black/40 flex items-center justify-center p-0.5" style={{ borderColor: accentColor }}>
-                  <img src={getProxiedImageUrl(profile.profilePic)} alt="Profile" className="w-full h-full object-cover rounded-xl grayscale brightness-110 contrast-110" crossOrigin="anonymous" />
+                  <img src={profile.profilePic} alt="Profile" className="w-full h-full object-cover rounded-xl grayscale brightness-110 contrast-110" crossOrigin="anonymous" />
                 </div>
               </div>
             )}
@@ -315,7 +315,7 @@ const CardFrontRenderer = ({
               <div className="relative shrink-0 mr-2 transform rotate-2 hover:rotate-0 transition-transform duration-300">
                 <div className="absolute -inset-2 bg-gradient-to-tr from-purple-600 to-pink-500 rounded-2xl opacity-40 blur-xl pointer-events-none" />
                 <div className="w-[110px] h-[110px] rounded-2xl overflow-hidden p-1 shadow-2xl relative" style={{ background: `linear-gradient(to top right, ${bgColor}, ${accentColor})` }}>
-                  <img src={getProxiedImageUrl(profile.profilePic)} alt="Profile" className="w-full h-full object-cover rounded-xl" crossOrigin="anonymous" />
+                  <img src={profile.profilePic} alt="Profile" className="w-full h-full object-cover rounded-xl" crossOrigin="anonymous" />
                 </div>
               </div>
             )}
@@ -359,7 +359,7 @@ const CardFrontRenderer = ({
             <div className="flex flex-col items-center gap-2 rotate-3 shrink-0">
               {profile?.profilePic ? (
                 <div className="w-28 h-28 rounded-2xl border-4 border-black overflow-hidden shadow-[4px_4px_0_0_rgba(0,0,0,1)] bg-white">
-                  <img src={getProxiedImageUrl(profile.profilePic)} alt="funny avatar" className="w-[112px] h-[112px] object-cover rounded-xl" crossOrigin="anonymous" />
+                  <img src={profile.profilePic} alt="funny avatar" className="w-[112px] h-[112px] object-cover rounded-xl" crossOrigin="anonymous" />
                 </div>
               ) : (
                 <div className="text-7xl drop-shadow-2xl">🔥</div>
@@ -405,7 +405,7 @@ const CardFrontRenderer = ({
 
             {profile?.profilePic && (
               <div className="w-[110px] h-[110px] rounded-3xl p-1 border-2 overflow-hidden transform -rotate-3 bg-white shrink-0 mr-4 shadow-lg" style={{ borderColor: fgColor }}>
-                <img src={getProxiedImageUrl(profile.profilePic)} alt="Cartoon Frame" className="w-full h-full object-cover rounded-2xl filter saturate-125" crossOrigin="anonymous" />
+                <img src={profile.profilePic} alt="Cartoon Frame" className="w-full h-full object-cover rounded-2xl filter saturate-125" crossOrigin="anonymous" />
               </div>
             )}
           </div>
@@ -441,7 +441,7 @@ const CardFrontRenderer = ({
           {profile?.profilePic && (
             <div className="relative shrink-0 mr-4">
               <div className="w-[110px] h-[110px] rounded-full overflow-hidden border border-zinc-200/40 p-1 shadow-md bg-white">
-                <img src={getProxiedImageUrl(profile.profilePic)} className="w-[102px] h-[102px] object-cover rounded-full" crossOrigin="anonymous" />
+                <img src={profile.profilePic} className="w-[102px] h-[102px] object-cover rounded-full" crossOrigin="anonymous" />
               </div>
             </div>
           )}
@@ -656,7 +656,7 @@ const PhoneMockup = ({ profile, themeKey, bgColor, fgColor, accentColor, glassEf
             }}
           >
             {profile?.profilePic ? (
-              <img src={getProxiedImageUrl(profile.profilePic)} className="w-full h-full object-cover" crossOrigin="anonymous" />
+              <img src={profile.profilePic} className="w-full h-full object-cover" crossOrigin="anonymous" />
             ) : (
               <span className="opacity-40 text-2xl font-bold">{profile?.name?.charAt(0) || 'U'}</span>
             )}
