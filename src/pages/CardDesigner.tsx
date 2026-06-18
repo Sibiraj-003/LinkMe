@@ -120,19 +120,26 @@ const resolveOklchInClonedDoc = (clonedDoc: Document) => {
   const ctx = canvas.getContext('2d');
 
   const resolveColor = (colorStr: string): string => {
-    if (!colorStr || !colorStr.includes('oklch')) return colorStr;
-    if (!ctx) return colorStr;
-    try {
-      ctx.clearRect(0, 0, 1, 1);
-      ctx.fillStyle = colorStr;
-      ctx.fillRect(0, 0, 1, 1);
-      const imgData = ctx.getImageData(0, 0, 1, 1);
-      const [r, g, b, a] = imgData.data;
-      return `rgba(${r}, ${g}, ${b}, ${(a / 255).toFixed(3)})`;
-    } catch (e) {
-      return colorStr;
-    }
-  };
+  if (
+    !colorStr ||
+    (!colorStr.includes('oklch') && !colorStr.includes('oklab'))
+  ) {
+    return colorStr;
+  }
+
+  try {
+    ctx.clearRect(0, 0, 1, 1);
+    ctx.fillStyle = colorStr;
+    ctx.fillRect(0, 0, 1, 1);
+
+    const imgData = ctx.getImageData(0, 0, 1, 1);
+    const [r, g, b, a] = imgData.data;
+
+    return `rgba(${r}, ${g}, ${b}, ${(a / 255).toFixed(3)})`;
+  } catch {
+    return colorStr;
+  }
+};
 
   for (let i = 0; i < elements.length; i++) {
     const el = elements[i] as HTMLElement;
@@ -146,15 +153,15 @@ const resolveOklchInClonedDoc = (clonedDoc: Document) => {
 
     for (const prop of colorProps) {
       const val = computed[prop as any];
-      if (val && val.includes('oklch')) {
+      includes('oklch') || includes('oklab')
         const resolved = resolveColor(val);
         el.style[prop as any] = resolved;
       }
     }
 
     const bgVal = computed.backgroundImage;
-    if (bgVal && bgVal.includes('oklch')) {
-      const regex = /oklch\([^)]+\)/g;
+    includes('oklch') || includes('oklab'){
+      const regex = /(oklch|oklab)\([^)]+\)/g;
       const resolvedBg = bgVal.replace(regex, (match) => {
         return resolveColor(match);
       });
